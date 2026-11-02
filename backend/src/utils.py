@@ -99,4 +99,20 @@ def clean_property_loss_usd_val(val):
         return float(val_str)
     except ValueError:
         return np.nan
+    
 
+def clean_incident_datetime(val):
+    """
+    Cleans and standardizes a single incident datetime string/value.
+    Returns a pandas Timestamp object or None if invalid/missing.
+    """
+    if pd.isna(val) or str(val).strip() == "":
+        return None
+    
+    # Attempt parsing using pandas to_datetime with mixed format support
+    parsed = pd.to_datetime(val, format='mixed', errors='coerce')
+    
+    if pd.isna(parsed):
+        return None
+        
+    return parsed
